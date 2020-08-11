@@ -1,0 +1,10 @@
+groups:
+- name: service_status
+  rules:
+  - alert: status_check
+    expr: probe_success{job="status_check"} == 0
+    for: 5s
+    labels:
+      severity: high
+    annotations:
+      description: "{{ $labels._service_name }}异常停止！请重点关注！！！"

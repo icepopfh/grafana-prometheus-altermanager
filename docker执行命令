@@ -1,0 +1,31 @@
+docker run -e "GF_SECURITY_ADMIN_PASSWORD=123456" -itd -p 3000:3000 --name grafana -v /etc/localtime:/etc/localtime:ro -v /data/monitor/grafana/data:/var/lib/grafana -v /data/monitor/grafana/conf:/usr/share/grafana/conf --privileged=true --restart=always grafana
+
+docker run -itd -p 9090:9090 --name=prometheus -v /etc/localtime:/etc/localtime:ro -v /data/monitor/prometheus/data:/prometheus/data -v /data/monitor/prometheus/conf/rules:/etc/prometheus/rules -v /data/monitor/prometheus/conf/prometheus.yml:/etc/prometheus/prometheus.yml -v /data/monitor/prometheus/conf/conf.d:/etc/prometheus/conf.d --privileged=true --restart=always prometheus  --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle --web.external-url=http://192.168.15.115:9090/
+
+
+docker run -itd -p 9093:9093 -v /etc/localtime:/etc/localtime:ro -v /data/monitor/altermanager/conf:/etc/alertmanager -v /data/monitor/altermanager/tmpl:/etc/alertmanager-tmpl -v /data/monitor/altermanager/data:/alertmanager/data  --name alertmanager --privileged=true --restart=always alertmanager --web.external-url=http://192.168.15.115:9093/  --config.file=/etc/alertmanager/alertmanager.yml
+
+docker run -itd -p 9115:9115 --name blackbox_exporter -v /etc/localtime:/etc/localtime -v /data/monitor/blackbox/conf:/etc/blackbox_exporter --privileged=true --restart=always blackbox-exporter --config.file=/etc/blackbox_exporter/blackbox.yml --web.external-url=http://192.168.15.115:9115/
+
+docker run -itd -p 8060:8060 --name prometheus_webhook_dingtalk --restart=always -v /data/monitor/prometheus_webhook_dingtalk/conf:/etc/prometheus-webhook-dingtalk -v /etc/localtime:/etc/localtime  --privileged=true prometheus-webhook-dingtalk --config.file=/etc/prometheus-webhook-dingtalk/config.yml  --web.enable-ui --web.enable-lifecycle
+
+docker run -itd -v /etc/localtime:/etc/localtime --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro --publish=8080:8080 --name=cadvisor  --restart=always --privileged=true gcr.io/google-containers/cadvisor
+
+./node_exporter --web.listen-address=:10000
+
+prometheus数据保留时间：
+--storage.tsdb.retention    默认15天
+在启动脚本里更改--storage.tsdb.retention=90d
+
+grafana-cli plugins install grafana-piechart-panel
+grafana-cli plugins install savantly-heatmap-panel
+
+grafana-cli plugins install btplc-status-dot-panel
+grafana-cli plugins install flant-statusmap-panel
+grafana-cli plugins install blackmirror1-statusbygroup-panel
+
+9965
+11352
+11802
+12171
+

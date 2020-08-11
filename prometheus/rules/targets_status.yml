@@ -1,0 +1,11 @@
+groups:
+- name: targets
+  rules:
+  - alert: check_targets
+    expr: up == 0
+    for: 30s
+    labels:
+      severity: medium
+    annotations:
+      description: "采集器{{ $labels.instance }}状态为DOWN，请及时查看！！！"
+      

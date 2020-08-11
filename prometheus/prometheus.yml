@@ -1,0 +1,76 @@
+global:
+  scrape_interval: 5s # 每次数据收集的间隔,默认1m,
+  evaluation_interval: 1s #评估周期,默认1m
+  scrape_timeout: 5s #抓取超时时间，默认10s
+
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets: ["192.168.15.115:9093"]
+#    timeout: 10s
+
+rule_files:
+  - '/etc/prometheus/rules/*.yml'
+
+
+scrape_configs:
+  - job_name: 'docker_container' #服务器需部署cadvisor，可docker部署
+    scrape_interval: 5s
+    file_sd_configs:
+       - files: 
+         - /etc/prometheus/conf.d/docker_container.json
+         refresh_interval: 5m
+
+  - job_name: 'linux_server' #服务器需部署node_exporter，本机部署
+    scrape_interval: 5s
+    file_sd_configs:
+       - files: 
+         - /etc/prometheus/conf.d/linux_server.json
+         refresh_interval: 5m
+
+  - job_name: 'windows_server' #服务器需部署windows_exporter，本机部署
+    scrape_interval: 5s
+    file_sd_configs:
+       - files: 
+         - /etc/prometheus/conf.d/windows_server.json
+         refresh_interval: 5m
+
+  - job_name: "status_check"  #服务器需部署blackbox_exporter，可docker部署
+    scrape_interval: 5s
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    file_sd_configs:
+       - files: 
+         - /etc/prometheus/conf.d/status_check.json
+         refresh_interval: 5m
+    relabel_configs:
+        - source_labels: [__address__]
+          target_label: __param_target
+        - source_labels: [__param_target]
+          target_label: instance
+        - target_label: __address__
+          replacement: 192.168.15.115:9115
+
+  - job_name: 'ping_all'  #服务器需部署blackbox_exporter，可docker部署
+    scrape_interval: 5s
+    metrics_path: /probe
+    params:
+      module: [ping]  #icmp
+    file_sd_configs:
+       - files: 
+         - /etc/prometheus/conf.d/ping_all.json
+         refresh_interval: 5m
+    relabel_configs:
+      - source_labels: [__address__]
+        regex: (.*)(:80)?
+        target_label: __param_target
+        replacement: ${1}
+      - source_labels: [__param_target]
+        regex: (.*)
+        target_label: ping
+        replacement: ${1}
+      - source_labels: []
+        regex: .*
+        target_label: __address__
+        replacement: 192.168.15.115:9115  # Blackbox_exporter

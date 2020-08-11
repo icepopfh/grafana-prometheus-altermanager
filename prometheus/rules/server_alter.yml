@@ -1,0 +1,53 @@
+groups:
+- name: linux_server
+  rules:
+  - alert: cpu_check
+    expr: ((1 - avg(irate(node_cpu_seconds_total{mode="idle"}[3m])) by (instance)) * 100) > 80
+    for: 1m
+    labels:
+      severity: medium
+    annotations:
+      description: "{{ $labels.instance }}的CPU使用率超过了百分之80！"
+      
+  - alert: memory_check
+    expr: ((1 - (node_memory_MemAvailable_bytes / (node_memory_MemTotal_bytes)))* 100) > 80
+    for: 1m
+    labels:
+      severity: medium
+    annotations:
+      description: "{{ $labels.instance }}的内存使用率超过了百分之80！"
+      
+  - alert: disk_check
+    expr: (max((node_filesystem_size_bytes{fstype=~"ext.?|xfs"}-node_filesystem_free_bytes{fstype=~"ext.?|xfs"}) *100/(node_filesystem_avail_bytes {fstype=~"ext.?|xfs"}+(node_filesystem_size_bytes{fstype=~"ext.?|xfs"}-node_filesystem_free_bytes{fstype=~"ext.?|xfs"})))by(instance)) > 80
+    for: 1m
+    labels:
+      severity: medium
+    annotations:
+      description: "{{ $labels.instance }}的磁盘使用率超过了百分之80！"
+
+- name: windows_server      
+  rules:
+  - alert: cpu_check
+    expr: (100 - (avg by (instance) (irate(windows_cpu_time_total{mode="idle"}[1m])) * 100)) > 80
+    for: 1m
+    labels:
+      severity: medium
+    annotations:
+      description: "{{ $labels.instance }}的CPU使用率超过了百分之80！"
+
+  - alert: memory_check
+    expr: ((windows_cs_physical_memory_bytes - windows_os_physical_memory_free_bytes) / windows_cs_physical_memory_bytes * 100) > 80
+    for: 1m
+    labels:
+      severity: medium
+    annotations:
+      description: "{{ $labels.instance }}的内存使用率超过了百分之80！"
+      
+  - alert: disk_check
+    expr: ((sum(windows_logical_disk_size_bytes{volume!~"Harddisk.*"}) by (instance) - sum(windows_logical_disk_free_bytes{volume!~"Harddisk.*"}) by (instance)) / sum(windows_logical_disk_size_bytes{volume!~"Harddisk.*"}) by (instance) * 100) > 80
+    for: 1m
+    labels:
+      severity: medium
+    annotations:
+      description: "{{ $labels.instance }}的磁盘使用率超过了百分之80！"
+

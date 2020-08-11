@@ -1,0 +1,323 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 36,
+  "iteration": 1596703184523,
+  "links": [],
+  "panels": [
+    {
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "$$hashKey": "object:33",
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "$$hashKey": "object:34",
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "polystat": {
+        "animationSpeed": 2500,
+        "columnAutoSize": false,
+        "columns": 10,
+        "defaultClickThrough": "",
+        "defaultClickThroughNewTab": false,
+        "defaultClickThroughSanitize": false,
+        "displayLimit": 100,
+        "fontAutoColor": true,
+        "fontAutoScale": false,
+        "fontSize": 15,
+        "fontType": "Roboto",
+        "globalDecimals": 0,
+        "globalDisplayMode": "all",
+        "globalDisplayTextTriggeredEmpty": "OK",
+        "globalOperatorName": "current",
+        "globalThresholds": [
+          {
+            "$$hashKey": "object:113",
+            "color": "#C4162A",
+            "state": 2,
+            "value": 0
+          },
+          {
+            "$$hashKey": "object:106",
+            "color": "#299c46",
+            "state": 0,
+            "value": 1
+          }
+        ],
+        "globalUnitFormat": "short",
+        "gradientEnabled": true,
+        "hexagonSortByDirection": 1,
+        "hexagonSortByField": "name",
+        "maxMetrics": 0,
+        "polygonBorderColor": "black",
+        "polygonBorderSize": 2,
+        "polygonGlobalFillColor": "#0a50a1",
+        "radius": "",
+        "radiusAutoSize": true,
+        "rowAutoSize": true,
+        "rows": "",
+        "shape": "hexagon_pointed_top",
+        "tooltipDisplayMode": "all",
+        "tooltipDisplayTextTriggeredEmpty": "OK",
+        "tooltipFontSize": 12,
+        "tooltipFontType": "Roboto",
+        "tooltipPrimarySortDirection": 1,
+        "tooltipPrimarySortField": "name",
+        "tooltipSecondarySortDirection": 1,
+        "tooltipSecondarySortField": "name",
+        "tooltipTimestampEnabled": true
+      },
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "savedComposites": [],
+      "savedOverrides": [],
+      "targets": [
+        {
+          "expr": "probe_success{ping=~\"$ip\"}",
+          "interval": "",
+          "legendFormat": "{{group}}{{ping}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "STATUS",
+      "type": "grafana-polystat-panel",
+      "valueMaps": [
+        {
+          "$$hashKey": "object:36",
+          "op": "=",
+          "text": "opening",
+          "value": "1"
+        },
+        {
+          "$$hashKey": "object:116",
+          "op": "=",
+          "text": "blocking",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "center"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value"
+            },
+            "properties": [
+              {
+                "id": "custom.displayMode",
+                "value": "color-background"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "dark-red",
+                      "value": 0
+                    },
+                    {
+                      "color": "dark-green",
+                      "value": 1
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "from": "",
+                    "id": 0,
+                    "operator": "",
+                    "text": "blocking",
+                    "to": "",
+                    "type": 1,
+                    "value": "0"
+                  },
+                  {
+                    "from": "",
+                    "id": 1,
+                    "operator": "",
+                    "text": "opening",
+                    "to": "",
+                    "type": 1,
+                    "value": "1"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 2,
+      "interval": null,
+      "links": [],
+      "maxDataPoints": 1,
+      "options": {
+        "showHeader": true
+      },
+      "pluginVersion": "7.0.4",
+      "targets": [
+        {
+          "expr": "probe_success{ping=~\"$ip\"}",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "一楼",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "group",
+                "ping",
+                "Value"
+              ]
+            }
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "schemaVersion": 25,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "Prometheus",
+        "definition": "label_values(probe_success{job=\"ping_all\"},ping)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "ip",
+        "multi": false,
+        "name": "ip",
+        "options": [],
+        "query": "label_values(probe_success{job=\"ping_all\"},ping)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "网络检测",
+  "uid": "JjZPWtVMk",
+  "version": 18
+}
