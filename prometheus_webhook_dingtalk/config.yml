@@ -16,7 +16,7 @@ targets:
   webhook1:
     url: https://oapi.dingtalk.com/robot/send?access_token=509c161377fafd112374cdba4fd2a652e9fc145a03ad27bf6efdfde165feaaf3 
     # secret for signature
-    secret: SEC8e768dc334cd5a6581fe5e249df4c9b3c08e44a3be8b6832d869b9b44f50589e
+    secret:
 #  webhook2:
 #    url: https://oapi.dingtalk.com/robot/send?access_token=xxxxxxxxxxxx
 #  webhook_legacy:
